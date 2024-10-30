@@ -37,3 +37,53 @@ console.log(array);
 
 //Lista de Tareas - Practica Elininar de un array
 
+// Array para almacenar las tareas
+let tasks = [];
+
+// Seleccionamos el botón y el input del DOM
+const taskInput = document.getElementById('taskInput');
+const addTaskBtn = document.getElementById('addTaskBtn');
+const taskListDiv = document.getElementById('taskList');
+
+// Función flecha para agregar una tarea
+const addTask = () => {
+    const taskText = taskInput.value; // Obtenemos el valor del input
+    
+    // Verificamos que el input no esté vacío
+    if (taskText) {
+        tasks.push(taskText); // Añadimos la tarea al array
+        taskInput.value = ''; // Limpiamos el input
+        updateTaskList(); // Actualizamos la lista visible
+    } else {
+        alert("Ingresa un valor"); // Mensaje de alerta si el input está vacío
+    }
+};
+
+// Función flecha para eliminar una tarea por índice
+const removeTask = (index) => {
+    tasks.splice(index, 1); // Eliminamos la tarea
+    updateTaskList(); // Actualizamos la lista visible
+};
+
+// Función para actualizar la lista de tareas en el DOM
+const updateTaskList = () => {
+    taskListDiv.innerHTML = ''; // Limpiamos la lista actual
+    tasks.forEach((task, index) => {
+        const taskItem = document.createElement('div'); // Creamos un nuevo elemento div para cada tarea
+        taskItem.textContent = task; // Asignamos el texto de la tarea
+        
+        // Creamos un botón para eliminar la tarea
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Eliminar';
+        removeBtn.onclick = () => removeTask(index); // Asociamos la función de eliminar
+
+        taskItem.appendChild(removeBtn); // Añadimos el botón al item de la tarea
+        taskListDiv.appendChild(taskItem); // Añadimos el item de tarea a la lista
+    });
+};
+
+// Evento para agregar la tarea al hacer clic en el botón
+addTaskBtn.onclick = addTask;
+
+// Llamamos a updateTaskList para mostrar las tareas al inicio
+updateTaskList();
